@@ -1,5 +1,5 @@
 @extends('user.layout.layout')
-
+@section('title', 'Fahasha - Trang Chủ')
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <main>

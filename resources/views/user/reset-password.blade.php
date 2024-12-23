@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Demo powered by Templatetrip">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/x-icon" href="/user/assets/img/favicon.ico">
+    <link rel="icon" href="https://cdn0.fahasa.com/media/favicon/default/favicon4.ico" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700,900" rel="stylesheet">
 
