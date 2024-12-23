@@ -1,5 +1,7 @@
 @extends('user.layout.layout')
 
+@section('title', 'Fahasha - Tài Khoản')
+
 @section('content')
 
 <nav aria-label="breadcrumb" class="w-100 float-left">

@@ -26,7 +26,7 @@
                     <div class="dropdown-menu mega-menu v-2 z-depth-1 special-color py-3 px-3">
                         <div class="row">
                             @foreach ($formattedCategories as $category)
-                                <div class="col-md-12 col-xl-4 sub-menu mb-xl-0 mb-4">
+                                <div class="col-md-12 col-xl-6 sub-menu mb-xl-0 mb-4">
                                     <h6 class="sub-title text-uppercase font-weight-bold white-text">
                                         {{ $category['name'] }}</h6>
                                     <!--Featured image-->

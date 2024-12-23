@@ -1,5 +1,5 @@
 @extends('user.layout.layout')
-
+@section('title', 'Fahasha - Danh Sách Địa Chỉ')
 @section('content')
     <div class="container">
         <div class="row">

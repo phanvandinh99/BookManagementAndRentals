@@ -1,5 +1,7 @@
 @extends('user.layout.layout')
 
+@section('title', 'Fahasha - Địa Chỉ')
+
 @section('content')
     <div class="container mt-5">
         <h4>Thêm mới địa chỉ</h4>

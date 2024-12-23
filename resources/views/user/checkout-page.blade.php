@@ -1,5 +1,5 @@
 @extends('user.layout.layout')
-
+@section('title', 'Fahasha - Kiểm Tra Giỏ Hàng')
 @section('content')
 
     <nav aria-label="breadcrumb" class="w-100 float-left">

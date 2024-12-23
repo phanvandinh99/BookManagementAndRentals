@@ -279,32 +279,32 @@
                         </div>
                     </div>
                 </div>
-                <div id="ttbrandlogo" class="my-40 my-sm-25 bottom-to-top hb-animate-element">
+                <div id="ttbrandlogo" class="my-30 my-sm-20 bottom-to-top hb-animate-element">
                     <div class="container">
                         <div class="tt-brand owl-carousel">
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-01.png" alt="brand-logo-01"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/icon_snappy.webp" alt="Snappy"
+                                                 width="100" height="60"></a>
                             </div>
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-02.png" alt="brand-logo-02"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/ahamove_logo3.webp" alt="brand-logo-02"
+                                                 width="100" height="60"></a>
                             </div>
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-03.png" alt="brand-logo-03"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/shopeepay_logo.webp" alt="brand-logo-03"
+                                                 width="100" height="60"></a>
                             </div>
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-04.png" alt="brand-logo-04"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/vnpay_logo.webp" alt="brand-logo-04"
+                                                 width="100" height="60"></a>
                             </div>
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-05.png" alt="brand-logo-05"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/vnpost1.webp" alt="brand-logo-05"
+                                                 width="100" height="60"></a>
                             </div>
                             <div class="item">
-                                <a href="#"><img src="/user/assets/img/logos/brand-logo-06.png" alt="brand-logo-06"
-                                                 width="140" height="100"></a>
+                                <a href="#"><img src="/user/assets/img/logos/logo_ninjavan.webp" alt="brand-logo-06"
+                                                 width="100" height="60"></a>
                             </div>
                         </div>
                     </div>

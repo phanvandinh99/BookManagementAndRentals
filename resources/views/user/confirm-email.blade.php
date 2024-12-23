@@ -2,7 +2,7 @@
 <html>
 <head>
 <head>
-        <title>Xác nhận email nào</title>
+        <title>Fahasha - Xác Thực Email</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="Demo powered by Templatetrip">

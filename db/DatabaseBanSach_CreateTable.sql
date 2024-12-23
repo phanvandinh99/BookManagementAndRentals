@@ -40,8 +40,8 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `FullName`, `PhoneNumber`) VALUES
-(16, 'admin@mail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Admin', '1122334455'),
-(17, 'lxq.2309@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Nhật', '0906144873');
+(16, 'admin@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Admin', '1122334455'),
+(17, 'nhat@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Nguễn Văn Nhật', '0906144873');
 
 -- --------------------------------------------------------
 
@@ -453,6 +453,12 @@ ALTER TABLE `Book`
   ADD PRIMARY KEY (`BookID`);
 
 --
+-- Indexes for table `BookImage`
+--
+ALTER TABLE `BookImage`
+  ADD PRIMARY KEY (`ImageID`);
+
+--
 -- Indexes for table `BookSet`
 --
 ALTER TABLE `BookSet`
@@ -538,89 +544,96 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã tài khoản Admin', AUTO_INCREMENT=18;
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã tài khoản Admin', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Book`
 --
 ALTER TABLE `Book`
-  MODIFY `BookID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã sách', AUTO_INCREMENT=10009;
+  MODIFY `BookID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã sách', AUTO_INCREMENT=1;
 
+
+--
+-- AUTO_INCREMENT for table `BookImage`
+--
+ALTER TABLE `BookImage`
+  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã ảnh sách', AUTO_INCREMENT=1;
+  
 --
 -- AUTO_INCREMENT for table `BookSet`
 --
 ALTER TABLE `BookSet`
-  MODIFY `SetID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã bộ sách', AUTO_INCREMENT=1009;
+  MODIFY `SetID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã bộ sách', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Category`
 --
 ALTER TABLE `Category`
-  MODIFY `CategoryID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã danh mục', AUTO_INCREMENT=11;
+  MODIFY `CategoryID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã danh mục', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Coupon`
 --
 ALTER TABLE `Coupon`
-  MODIFY `CouponID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã mã giảm giá', AUTO_INCREMENT=1015;
+  MODIFY `CouponID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã mã giảm giá', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Genre`
 --
 ALTER TABLE `Genre`
-  MODIFY `GenreID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã thể loại', AUTO_INCREMENT=108;
+  MODIFY `GenreID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã thể loại', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Publisher`
 --
 ALTER TABLE `Publisher`
-  MODIFY `PublisherID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã nhà xuất bản', AUTO_INCREMENT=101;
+  MODIFY `PublisherID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã nhà xuất bản', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `PurchaseOrder`
 --
 ALTER TABLE `PurchaseOrder`
-  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hoá đơn nhập', AUTO_INCREMENT=10025;
+  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hoá đơn nhập', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Review`
 --
 ALTER TABLE `Review`
-  MODIFY `ReviewID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã đánh giá', AUTO_INCREMENT=20089;
+  MODIFY `ReviewID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã đánh giá', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `SalesOrder`
 --
 ALTER TABLE `SalesOrder`
-  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hoá đơn bán', AUTO_INCREMENT=209;
+  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã hoá đơn bán', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `ShippingAddress`
 --
 ALTER TABLE `ShippingAddress`
-  MODIFY `AddressID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã địa chỉ', AUTO_INCREMENT=2024;
+  MODIFY `AddressID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã địa chỉ', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `ShoppingCart`
 --
 ALTER TABLE `ShoppingCart`
-  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã giỏ hàng', AUTO_INCREMENT=149;
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã giỏ hàng', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `ShoppingCartDetail`
 --
 ALTER TABLE `ShoppingCartDetail`
-  MODIFY `CartItemID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết giỏ hàng', AUTO_INCREMENT=7;
+  MODIFY `CartItemID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết giỏ hàng', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Supplier`
 --
 ALTER TABLE `Supplier`
-  MODIFY `SupplierID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã nhà cung cấp', AUTO_INCREMENT=101;
+  MODIFY `SupplierID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã nhà cung cấp', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã người dùng', AUTO_INCREMENT=2045;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã người dùng', AUTO_INCREMENT=1;
 COMMIT;

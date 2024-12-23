@@ -23,7 +23,7 @@
                     </div>
                     <a href="{{ route('supplier.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Thêm Mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -99,7 +99,7 @@
                             <div class="col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
                                     Hiển thị {{ $i + 1 }} đến {{ $i + $suppliers->count() }} trong tổng
-                                    số {{ $supplier->count() }} bản ghi
+                                    số {{ $suppliers->count() }} bản ghi
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 @extends('user.layout.layout')
-
+@section('title', 'Fahasha - Giỏ Hàng')
 @section('content')
 <nav aria-label="breadcrumb" class="w-100 float-left">
   <ol class="breadcrumb parallax justify-content-center" data-source-url="/user/assets/img/banner/parallax.jpg" style="background-image: url(&quot;img/banner/parallax.jpg&quot;); background-position: 50% 0.809717%;">

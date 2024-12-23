@@ -1,5 +1,5 @@
 @extends('user.layout.layout')
-
+@section('title', 'Fahasha - Loại Sách')
 @section('content')
     <div class="main-content w-100 float-left">
         <div class="container">

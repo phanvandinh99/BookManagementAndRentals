@@ -10,24 +10,23 @@
                     <div class="header-left float-left d-flex d-lg-flex d-md-block d-xs-block">
                         <div class="language-wrapper toggle">
                             <button type="button" class="btn text-capitalize dropdown-toggle"><img
-                                    src="/user/assets/img/banner/en.png" alt="en" height="12"
-                                    width="18" /><span>English</span></button>
+                                    src="/user/assets/img/banner/vietnam.png" alt="en" height="12"
+                                    width="18" /><span>Tiếng Việt</span></button>
                             <div id="language-dropdown" class="language">
                                 <ul>
+                                    <li><img src="/user/assets/img/banner/vietnam.png" alt="fr" width="18"
+                                            height="12" /><span>Tiếng Việt</span></li>
                                     <li><img src="/user/assets/img/banner/en.png" alt="en" width="18"
                                             height="12" /><span>English</span></li>
-                                    <li><img src="/user/assets/img/banner/fr.png" alt="fr" width="18"
-                                            height="12" /><span>French</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="currency-wrapper toggle">
                             <button type="button" class="btn text-capitalize dropdown-toggle"><span>€
-                                    Euro</span></button>
+                                    vnđ</span></button>
                             <div id="currency-dropdown" class="currency">
                                 <ul>
-                                    <li><span>€ Euro</span></li>
-                                    <li><span>£ Pound Sterling</span></li>
+                                    <li><span>đ vnđ</span></li>
                                     <li><span>$ US Dollar</span></li>
                                 </ul>
                             </div>
@@ -39,7 +38,7 @@
                     </div>
                     <div class="header-middle float-lg-left float-md-left float-sm-left float-xs-none">
                         <div class="logo">
-                            <a href="{{ route('index') }}"><img src="/user/assets/img/logos/logo.png" alt="logo"
+                            <a href="{{ route('index') }}"><img src="/user/assets/img/logos/fahasa-logo.webp" alt="logo"
                                     width="200" height="50"></a>
                         </div>
                     </div>
@@ -63,19 +62,19 @@
                             <div id="user-dropdown" class="user-menu">
                                 <ul>
                                     @if (Auth::check())
-                                        @if (Session::has('user'))
-                                            <li><a href="{{ route('account.detail') }}"
-                                                    class="text-capitalize">{{ Session::get('user')->UserName }}</a>
-                                            </li>
-                                        @else
-                                            <li><a href="{{ route('account.detail') }}" class="text-capitalize">Tài khoản của tôi</a></li>
-                                        @endif
-                                        <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                    @if (Session::has('user'))
+                                    <li><a href="{{ route('account.detail') }}"
+                                            class="text-capitalize">{{ Session::get('user')->UserName }}</a>
+                                    </li>
                                     @else
-                                        <li><a href="#" class="modal-view button" data-toggle="modal"
-                                                data-target="#modalRegisterForm">Đăng ký</a></li>
-                                        <li><a href="#" class="modal-view button" data-toggle="modal"
-                                                data-target="#modalLoginForm">Đăng nhập</a></li>
+                                    <li><a href="{{ route('account.detail') }}" class="text-capitalize">Tài khoản của tôi</a></li>
+                                    @endif
+                                    <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                    @else
+                                    <li><a href="#" class="modal-view button" data-toggle="modal"
+                                            data-target="#modalRegisterForm">Đăng ký</a></li>
+                                    <li><a href="#" class="modal-view button" data-toggle="modal"
+                                            data-target="#modalLoginForm">Đăng nhập</a></li>
                                     @endif
                                 </ul>
                             </div>
@@ -159,13 +158,13 @@
     function updateTotalBookCount(count) {
         $('.ttcount').text(count);
     }
-    
+
     function updateTotalPrice(price) {
         $('.ttprice').text(price + 5);
     }
 
-    $(document).ready(function () {
-        $(".close-cart").click(function () {
+    $(document).ready(function() {
+        $(".close-cart").click(function() {
             var bookID = $(this).data('bookid');
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -181,14 +180,16 @@
             $.ajax({
                 url: '/cart/remove',
                 method: 'POST',
-                data: { book_id: bookID },
-                success: function (response) {
+                data: {
+                    book_id: bookID
+                },
+                success: function(response) {
                     // Handle success, such as updating the cart display or removing the row from the table.
                     currentRow.remove();
                     updateTotalBookCount(response.totalBookCount);
                     updateTotalPrice(response.totalPrice);
                 },
-                error: function (error) {
+                error: function(error) {
                     // Handle errors, if any.
                     console.error('Error:', error);
                 }

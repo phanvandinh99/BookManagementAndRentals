@@ -25,10 +25,9 @@
         <div class="row">
             <div class="col-md-3 footer-cms footer-column">
                 <div class="ttcmsfooter">
-                    <div class="footer-logo"><img src="/user/assets/img/logos/footer-logo.png" alt="footer-logo"
+                    <div class="footer-logo"><img src="/user/assets/img/logos/fahasa-logo.webp" alt="footer-logo"
                                                   width="200" height="50"></div>
-                    <div class="footer-desc">At vero eos et accusamus et iusto odio dignissimos ducimus, duis faucibus
-                        enim vitae
+                    <div class="footer-desc">Fahasa nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng.
                     </div>
                 </div>
             </div>
@@ -100,7 +99,7 @@
         <div class="container">
             <div class="row">
                 <div class="footer-copyright text-center py-3">
-                    © 2023 - Boostrap theme by store™
+                    © 2024 - Hệ Thống Fahasa™
                 </div>
             </div>
         </div>
