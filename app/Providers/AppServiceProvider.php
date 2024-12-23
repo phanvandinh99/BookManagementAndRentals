@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('user.layout.header', function ($view) {
             $categories = DB::table('Category')
                 ->select('CategoryID', 'CategoryName')
-                ->take(5)
+                // ->take(5)
                 ->get();
 
             $formattedCategories = [];
@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
                 $genres = DB::table('Genre')
                     ->where('CategoryID', $categoryId)
                     ->select('GenreID', 'GenreName')
-                    ->take(5)
+                    // ->take(5)
                     ->get();
 
                 $formattedCategories[] = [
@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('user.product-category', function ($view) {
             $categories = DB::table('Category')
                 ->select('CategoryID', 'CategoryName')
-                ->take(5)
+                // ->take(5)
                 ->get();
 
             $formattedCategories = [];
@@ -74,7 +74,7 @@ class AppServiceProvider extends ServiceProvider
                 $genres = DB::table('Genre')
                     ->where('CategoryID', $categoryId)
                     ->select('GenreID', 'GenreName')
-                    ->take(5)
+                    // ->take(5)
                     ->get();
 
                 $formattedCategories[] = [
