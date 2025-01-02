@@ -607,7 +607,7 @@ CREATE TABLE `rentaldetail` (
   `BookCode` int(11) DEFAULT NULL COMMENT 'Mã code sách',
   `Quantity` int(11) DEFAULT NULL COMMENT 'Số lượng',
   `StartDate` DATETIME DEFAULT NULL COMMENT 'Ngày Mượn',
-  `EndDate` DATETIME DEFAULT NULL COMMENT 'Ngày Trả',
+  `EndDate` DATETIME DEFAULT NULL COMMENT 'Ngày Trả'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về chi tiết thuê sách';
 
 --
