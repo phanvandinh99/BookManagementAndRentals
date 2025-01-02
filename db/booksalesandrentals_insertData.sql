@@ -558,6 +558,24 @@ INSERT INTO `shoppingcart` (`CartID`, `UserID`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `rental`
+--
+
+CREATE TABLE `rental` (
+  `RentalID` int(11) NOT NULL COMMENT 'Mã thuê sách',
+  `UserID` int(11) DEFAULT NULL COMMENT 'Mã người dùng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về thuê sách';
+
+--
+-- Đang đổ dữ liệu cho bảng `rental`
+--
+
+INSERT INTO `rental` (`RentalID`, `UserID`) VALUES
+(1, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `shoppingcartdetail`
 --
 
@@ -575,6 +593,30 @@ CREATE TABLE `shoppingcartdetail` (
 INSERT INTO `shoppingcartdetail` (`CartItemID`, `CartID`, `BookID`, `Quantity`) VALUES
 (1, 2, 3, 1),
 (2, 1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `rentaldetail`
+--
+
+CREATE TABLE `rentaldetail` (
+  `RentalDetailID` int(11) NOT NULL COMMENT 'Mã chi tiết thuê sách',
+  `RentalID` int(11) DEFAULT NULL COMMENT 'Mã thuê sách',
+  `BookID` int(11) DEFAULT NULL COMMENT 'Mã sách',
+  `BookCode` int(11) DEFAULT NULL COMMENT 'Mã code sách',
+  `Quantity` int(11) DEFAULT NULL COMMENT 'Số lượng',
+  `StartDate` DATETIME DEFAULT NULL COMMENT 'Ngày Mượn',
+  `EndDate` DATETIME DEFAULT NULL COMMENT 'Ngày Trả',
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về chi tiết thuê sách';
+
+--
+-- Đang đổ dữ liệu cho bảng `renderdetail`
+--
+
+INSERT INTO `renderdetail` (`RentalDetailID`, `RentalID`, `BookID`, `Quantity`, `StartDate`, `EndDate`) VALUES
+(1, 2, 3, 1, '2025-01-01', '2025-01-15'),
+(2, 1, 3, 1, '2025-02-01', '2025-02-15');
 
 -- --------------------------------------------------------
 
