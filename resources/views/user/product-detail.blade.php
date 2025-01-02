@@ -132,6 +132,14 @@
                                         Bìa mềm
                                     @endif
                                 </div>
+                                <div class="color-option d-flex align-items-center">
+                                    <h5>Loại sách :</h5>
+                                    @if($book->Rental == 1)
+                                        Sách Cho Thuê
+                                    @else
+                                        Sách Để Bán
+                                    @endif
+                                </div>
                             </div>
                             <div class="btn-cart d-flex align-items-center float-left w-100">
                                 <h5>qty:</h5>

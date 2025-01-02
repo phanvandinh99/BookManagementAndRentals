@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $Weight
  * @property $Avatar
  * @property $CoverStyle
+ * @property $Rental
  * @property $Size
  * @property $YearPublished
  * @property $Description
@@ -57,6 +58,7 @@ class Book extends Model
         'PageCount' => 'required',
         'Weight' => 'required',
         'CoverStyle' => 'required',
+        'Rental' => 'required',
         'YearPublished' => 'required'
     ];
 
@@ -67,7 +69,7 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['BookTitle','Author','PublisherID','CostPrice','SellingPrice','PageCount','Weight','Avatar','CoverStyle', 'Size','YearPublished','Description','SetID','CreatedBy','ModifiedBy'];
+    protected $fillable = ['BookTitle','Author','PublisherID','CostPrice','SellingPrice','PageCount','Weight','Avatar','CoverStyle', 'Rental', 'Size','YearPublished','Description','SetID','CreatedBy','ModifiedBy'];
 
 
     /**

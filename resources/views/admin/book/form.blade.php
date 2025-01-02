@@ -79,6 +79,17 @@
                 </option>
             </select>
         </div>
+        <div class="form-group required">
+            {{ Form::label('Loại sách') }}
+            <select name="Rental" class="form-control">
+                <option
+                    value="0">Sách Để Bán
+                </option>
+                <option
+                    value="1" {{ ($method == 'PATCH' && $book->Rental == 1) ? 'selected' : '' }}>Sách Cho Thuê
+                </option>
+            </select>
+        </div>
         <div class="form-group">
             {{ Form::label('Kích thước ([Chiều Dài]x[Chiều Rộng])') }}
             {{ Form::text('Size', $book->Size, ['class' => 'form-control' . ($errors->has('Size') ? ' is-invalid' : '')]) }}

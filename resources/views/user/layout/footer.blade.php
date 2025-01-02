@@ -506,6 +506,17 @@
             }
             document.querySelector("[data-product-cover-style]").textContent = 'Loại bìa: ' + coverstyle;
 
+            let rental = '';
+            switch (product.Rental) {
+                case 0:
+                    rental = 'Sách Đã Bán'
+                    break;
+                case 1:
+                    rental = 'Sách Cho Thuê';
+                    break;
+            }
+            document.querySelector("[data-product-cover-style]").textContent = 'Loại sách: ' + rental;
+
 
             // Handle the Add to Cart button click event
             var addToCartButton = document.querySelector("[data-add-to-cart]");

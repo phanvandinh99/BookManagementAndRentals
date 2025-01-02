@@ -121,6 +121,7 @@
                                                      class="img-thumbnail rounded check-image" style="max-width: 100px">
                                             </td>
                                             <td>{{ $book->CoverStyle }}</td>
+                                            <td>{{ $book->Rental }}</td>
                                             <td>{{ $book->Size }} cm</td>
                                             <td>{{ $book->YearPublished }}</td>
                                             @php
