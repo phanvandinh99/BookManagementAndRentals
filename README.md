@@ -1,9 +1,12 @@
 # Website bán sách
 Xây dựng website bán sách và cho thuê
 Các thành viên nhóm:
-- mã sinh viên - Nhật 1 
-- mã sinh viên - Nhật 2
-- mã sinh viên - Nhật 3
+- Lê Sĩ Nhật 
+- Nguyễn Phi Hùng
+- Nguyễn Minh Viên
+
+Lớp: 22CNTT1B
+Giáo Viên Hướng Dẫn: Th.S Trần Thị Hà Khuê
 
 ## Database diagram
 Mysql
