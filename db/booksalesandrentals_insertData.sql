@@ -563,15 +563,13 @@ INSERT INTO `shoppingcart` (`CartID`, `UserID`) VALUES
 
 CREATE TABLE `rental` (
   `RentalID` int(11) NOT NULL COMMENT 'Mã thuê sách',
-  `UserID` int(11) DEFAULT NULL COMMENT 'Mã người dùng'
+  `UserID` int(11) DEFAULT NULL COMMENT 'Mã người dùng',
+  `DateCreated` DATETIME DEFAULT NULL COMMENT 'Ngày Tạo',
+  `Status` tinyint(1) DEFAULT 0 COMMENT 'Đã trả hết/ chưa trả',
+  `TotalBookCost` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền sách',
+  `TotalRentalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng giá thuê',
+  `TotalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về thuê sách';
-
---
--- Đang đổ dữ liệu cho bảng `rental`
---
-
-INSERT INTO `rental` (`RentalID`, `UserID`) VALUES
-(1, NULL);
 
 -- --------------------------------------------------------
 
@@ -606,8 +604,10 @@ CREATE TABLE `rentaldetail` (
   `BookID` int(11) DEFAULT NULL COMMENT 'Mã sách',
   `BookCode` int(11) DEFAULT NULL COMMENT 'Mã code sách',
   `Quantity` int(11) DEFAULT NULL COMMENT 'Số lượng',
-  `StartDate` DATETIME DEFAULT NULL COMMENT 'Ngày Mượn',
-  `EndDate` DATETIME DEFAULT NULL COMMENT 'Ngày Trả'
+  `StartDate` DATETIME DEFAULT NULL COMMENT 'Ngày bắt đầu mượn',
+  `EndDate` DATETIME DEFAULT NULL COMMENT 'Ngày kết thúc mượn',
+  `PaymentDate` DATETIME DEFAULT NULL COMMENT 'Ngày kết thúc mượn',
+  `Status` tinyint(1) DEFAULT 0 COMMENT '0 Đã trả / 1 chưa trả'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về chi tiết thuê sách';
 
 --
@@ -665,6 +665,10 @@ CREATE TABLE `user` (
   `ModifiedDate` datetime DEFAULT NULL COMMENT 'Ngày sửa',
   `ConfirmCode` char(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về người dùng';
+
+INSERT INTO `user` (`UserID`, `UserName`, `password`, `email`, `FirstName`, `LastName`, `Gender`, `PhoneNumber`, `DateOfBirth`, `CreatedDate`, `ModifiedDate`, `ConfirmCode`) 
+VALUES ( 1, 'nhat', 'Abc123456', 'nhat@gmail.com', 'Văn', 'Nhật', 'Nam', '1234567890', '2000-01-01', CURRENT_TIMESTAMP, NULL, 'Abc123456');
+
 
 -- --------------------------------------------------------
 
@@ -835,6 +839,18 @@ ALTER TABLE `shoppingcartdetail`
   ADD PRIMARY KEY (`CartItemID`);
 
 --
+-- Chỉ mục cho bảng `rental`
+--
+ALTER TABLE `rental`
+  ADD PRIMARY KEY (`RentalID`);
+
+--
+-- Chỉ mục cho bảng `rentaldetail`
+--
+ALTER TABLE `rentaldetail`
+  ADD PRIMARY KEY (`RentalDetailID`);
+
+--
 -- Chỉ mục cho bảng `supplier`
 --
 ALTER TABLE `supplier`
@@ -958,6 +974,18 @@ ALTER TABLE `shoppingcart`
 --
 ALTER TABLE `shoppingcartdetail`
   MODIFY `CartItemID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết giỏ hàng', AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `rental`
+--
+ALTER TABLE `rental`
+  MODIFY `RentalID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết thuê', AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT cho bảng `rentaldetail`
+--
+ALTER TABLE `rentaldetail`
+  MODIFY `RentalDetailID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết thuê', AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT cho bảng `supplier`
