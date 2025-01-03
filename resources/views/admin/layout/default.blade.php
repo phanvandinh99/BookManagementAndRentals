@@ -273,6 +273,36 @@
                             </li>
                         </ul>
                     </li>
+                    
+                    <li class="nav-item menu-is-opening menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <p>
+                                Quản lý mượn sách
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview" style="display: block;">
+                            <li class="nav-item">
+                                <a href="{{ route("rental.index") }}"
+                                   class="nav-link {{ set_active('purchase-order.*') }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Hoá đơn mượn
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route("sales-order.index") }}"
+                                   class="nav-link {{ set_active('sales-order.*') }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Hoá đơn trả
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
