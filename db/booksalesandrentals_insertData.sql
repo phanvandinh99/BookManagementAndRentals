@@ -614,7 +614,7 @@ CREATE TABLE `rentaldetail` (
 -- Đang đổ dữ liệu cho bảng `renderdetail`
 --
 
-INSERT INTO `renderdetail` (`RentalDetailID`, `RentalID`, `BookID`, `Quantity`, `StartDate`, `EndDate`) VALUES
+INSERT INTO `rentaldetail` (`RentalDetailID`, `RentalID`, `BookID`, `Quantity`, `StartDate`, `EndDate`) VALUES
 (1, 2, 3, 1, '2025-01-01', '2025-01-15'),
 (2, 1, 3, 1, '2025-02-01', '2025-02-15');
 
