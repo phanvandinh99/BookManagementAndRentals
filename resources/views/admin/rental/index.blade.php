@@ -41,6 +41,7 @@ Hoá đơn mượn sách
                         <tr>
                             <th>Mã Thuê Sách</th>
                             <th>Khách Mượn</th>
+                            <th>Ngày Mượn</th>
                             <th>Giá Trị Sách Mượn</th>
                             <th>Phí Thuê Sách (2.000đ/ngày)</th>
                             <th>Tổng Tiền</th>
@@ -51,6 +52,7 @@ Hoá đơn mượn sách
                         <tr>
                             <td>{{ $rental->RentalID }}</td>
                             <td>{{ $rental->user->FirstName }} {{ $rental->user->LastName }}  (email: {{ $rental->user->email }})</td> <!-- Tên người dùng -->
+                            <td>{{ $rental->DateCreated }}</td>
                             <td>{{ number_format($rental->TotalBookCost, 0, ',', '.') }} VND</td> <!-- Định dạng tiền VND -->
                             <td>{{ number_format($rental->TotalRentalPrice, 0, ',', '.') }} VND</td> <!-- Định dạng tiền VND -->
                             <td>{{ number_format($rental->TotalPrice, 0, ',', '.') }} VND</td> <!-- Định dạng tiền VND -->

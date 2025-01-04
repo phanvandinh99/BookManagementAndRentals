@@ -288,16 +288,7 @@
                                    class="nav-link {{ set_active('purchase-order.*') }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>
-                                        Hoá đơn mượn
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route("sales-order.index") }}"
-                                   class="nav-link {{ set_active('sales-order.*') }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Hoá đơn trả
+                                        Hoá đơn mượn/trả sách
                                     </p>
                                 </a>
                             </li>

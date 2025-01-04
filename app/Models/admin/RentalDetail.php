@@ -25,22 +25,28 @@ class RentalDetail extends Model
     protected $table = 'rentaldetail'; // Tên bảng
     protected $primaryKey = 'RentalDetailID'; // Khóa chính
 
-    // Các thuộc tính
-    protected $fillable = [
-        'RentalID', 'BookID', 'BookCode', 'Quantity', 'StartDate', 'EndDate', 'PaymentDate', 'Status'
-    ];
+    public $timestamps = false; // Không sử dụng timestamps
 
-    public $timestamps = false; // Không sử dụng created_at và updated_at
+    protected $fillable = [
+        'RentalID',
+        'BookID',
+        'BookCode',
+        'Quantity',
+        'StartDate',
+        'EndDate',
+        'PaymentDate',
+        'Status',
+    ];
 
     // Quan hệ với bảng Rental (một RentalDetail thuộc một Rental)
     public function rental()
     {
-        return $this->belongsTo('App\Models\Rental', 'RentalID', 'RentalID');
+        return $this->belongsTo('App\Models\admin\Rental', 'RentalID', 'RentalID');
     }
 
     // Quan hệ với bảng Book (một RentalDetail thuộc một Book)
     public function book()
     {
-        return $this->belongsTo('App\Models\Book', 'BookID', 'BookID');
+        return $this->belongsTo('App\Models\admin\Book', 'BookID', 'BookID');
     }
 }

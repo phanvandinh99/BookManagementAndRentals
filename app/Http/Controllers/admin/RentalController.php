@@ -119,4 +119,133 @@ class RentalController extends Controller
 
         return redirect()->route('rental.index')->with('success', 'Tạo hoá đơn mượn thành công!');
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $rental = Rental::with('rentalDetails.book')->find($id);
+
+        if (!$rental) {
+            return redirect()->back()->withErrors('Hóa đơn không tồn tại.');
+        }
+
+        $rentalDetails = $rental->rentalDetails; // Lấy danh sách chi tiết mượn sách
+
+        return view('admin.rental.show', compact('rental', 'rentalDetails'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $rental = Rental::with('rentalDetails.book')->find($id);
+        $users = User::all();
+
+        return view('admin.rental.edit', compact('rental', 'users'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\admin\PurchaseOrder $purchaseOrder
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        // Xác thực dữ liệu
+        $request->validate(Rental::$rules);
+
+        // Tìm hóa đơn mượn
+        $rental = Rental::find($id);
+        if (!$rental) {
+            return redirect()->back()->withErrors('Hóa đơn mượn không tồn tại.');
+        }
+
+        // Cập nhật thông tin hóa đơn
+        $rental->UserID = $request->input('UserID');
+        $rental->save();
+
+        $totalBookCost = 0;
+        $totalRentalPrice = 0;
+
+        // Xóa các chi tiết cũ
+        RentalDetail::where('RentalID', $id)->delete();
+
+        // Lấy dữ liệu chi tiết sách từ form
+        $bookIDs = $request->input('BookID', []);
+        $endDates = $request->input('EndDate', []);
+
+        // Lưu các chi tiết mới
+        foreach ($bookIDs as $key => $bookID) {
+            if (!empty($bookID)) {
+                $book = Book::find($bookID);
+                if ($book) {
+                    $rentalDetail = new RentalDetail();
+                    $rentalDetail->RentalID = $rental->RentalID;
+                    $rentalDetail->BookID = $bookID;
+                    $rentalDetail->StartDate = $rental->DateCreated;
+                    $rentalDetail->EndDate = $endDates[$key];
+                    $rentalDetail->Status = 1; // Chưa trả
+                    $rentalDetail->save();
+
+                    // Tính tổng giá trị
+                    $totalBookCost += $book->SellingPrice;
+
+                    $startDate = Carbon::parse($rental->DateCreated);
+                    $endDate = Carbon::parse($endDates[$key]);
+                    $rentalDays = $startDate->diffInDays($endDate);
+
+                    $totalRentalPrice += $rentalDays * 2000; // Giá thuê mỗi ngày
+                }
+            }
+        }
+
+        // Cập nhật tổng tiền
+        $rental->TotalBookCost = $totalBookCost;
+        $rental->TotalRentalPrice = $totalRentalPrice;
+        $rental->TotalPrice = $totalBookCost + $totalRentalPrice;
+        $rental->save();
+
+        return redirect()->route('rental.show', $id)->with('success', 'Cập nhật hóa đơn mượn thành công!');
+    }
+
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        // Tìm hóa đơn mượn
+        $rental = Rental::find($id);
+        if (!$rental) {
+            return redirect()->route('rental.index')->withErrors('Hóa đơn mượn không tồn tại.');
+        }
+
+        // Xóa các chi tiết liên quan
+        RentalDetail::where('RentalID', $id)->delete();
+
+        // Xóa hóa đơn
+        $rental->delete();
+
+        return redirect()->route('rental.index')->with('success', 'Xóa hóa đơn mượn thành công!');
+    }
+
+
+    public function getAll()
+    {
+        return response()->json(Rental::with('rentalDetails.book')->get());
+    }
+
 }
