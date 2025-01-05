@@ -184,6 +184,7 @@ class RentalController extends Controller
         // Lấy dữ liệu chi tiết sách từ form
         $bookIDs = $request->input('BookID', []);
         $endDates = $request->input('EndDate', []);
+        $statuses = $request->input('Status', []);
 
         // Lưu các chi tiết mới
         foreach ($bookIDs as $key => $bookID) {
@@ -195,7 +196,15 @@ class RentalController extends Controller
                     $rentalDetail->BookID = $bookID;
                     $rentalDetail->StartDate = $rental->DateCreated;
                     $rentalDetail->EndDate = $endDates[$key];
-                    $rentalDetail->Status = 1; // Chưa trả
+                    $rentalDetail->Status = isset($statuses[$key]) ? $statuses[$key] : 1;
+
+                    // Gán PaymentDate nếu Status là "Đã trả" (0)
+                    if ($rentalDetail->Status == 0) {
+                        $rentalDetail->PaymentDate = Carbon::now(); // Ngày hiện tại
+                    } else {
+                        $rentalDetail->PaymentDate = null; // Không có giá trị nếu chưa trả
+                    }
+
                     $rentalDetail->save();
 
                     // Tính tổng giá trị
@@ -209,6 +218,7 @@ class RentalController extends Controller
                 }
             }
         }
+
 
         // Cập nhật tổng tiền
         $rental->TotalBookCost = $totalBookCost;
@@ -247,5 +257,4 @@ class RentalController extends Controller
     {
         return response()->json(Rental::with('rentalDetails.book')->get());
     }
-
 }

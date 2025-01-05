@@ -83,6 +83,22 @@
                                 <strong>Trạng Thái:</strong>
                                 @if ($rentalDetail->Status == 0)
                                 Đã trả
+                                <div class="form-group">
+                                    <strong>Ngày trả:</strong>
+                                    {{ \Carbon\Carbon::parse($rentalDetail->PaymentDate)->format('H:i d/m/Y') }}
+                                </div>
+
+                                @if (\Carbon\Carbon::parse($rentalDetail->PaymentDate)->greaterThan(\Carbon\Carbon::parse($rentalDetail->EndDate)))
+                                <div class="form-group">
+                                    <span class="text-danger"><strong>Vi phạm trả trễ hẹn</strong></span>
+                                    @php
+                                    $lateDays = \Carbon\Carbon::parse($rentalDetail->EndDate)->diffInDays(\Carbon\Carbon::parse($rentalDetail->PaymentDate));
+                                    $lateFee = $lateDays * 2000;
+                                    @endphp
+                                    <p>Thời gian trả trễ: {{ $lateDays }} ngày</p>
+                                    <p>Phí trả trễ: {{ number_format($lateFee, 0, ',', '.') }} đ</p>
+                                </div>
+                                @endif
                                 @elseif ($rentalDetail->Status == 1)
                                 Chưa trả
                                 @else
@@ -92,11 +108,14 @@
 
                         </div>
                     </div>
-                    @endforeach
-                </div>
-            </div>
 
+                </div>
+
+                @endforeach
+            </div>
         </div>
+
+    </div>
     </div>
 </section>
 @endsection

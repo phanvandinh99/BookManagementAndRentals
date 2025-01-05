@@ -5,27 +5,26 @@
             <select name="UserID" class="form-control">
                 <option value="">-- Khách Mượn --</option>
                 @foreach($users as $user)
-                <option value="{{ $user->UserID }}"
-                    {{ $user->UserID == $rental->UserID ? 'selected' : '' }}>
+                <option value="{{ $user->UserID }}" {{ $user->UserID == $rental->UserID ? 'selected' : '' }}>
                     {{ $user->FirstName }} {{ $user->LastName }} ({{ $user->email }})
                 </option>
                 @endforeach
             </select>
         </div>
 
-        <!-- Add Purchase Order Detail fields -->
+        <!-- Tìm kiếm sách -->
         <div class="form-group">
-            <label for="bookSearch">Tìm Mã Sách / <a class="btn-link" href="{{ route('book.create') }}" target="_blank">Thêm
-                    Sách Mới</a> </label>
+            <label for="bookSearch">Tìm Mã Sách / <a class="btn-link" href="{{ route('book.create') }}" target="_blank">Thêm Sách Mới</a></label>
             <input type="text" class="form-control" id="bookSearch" placeholder="Nhập tên sách">
             <select id="bookSearchResults" class="form-control" style="margin-top: 10px;">
                 <option value="">Kết quả sẽ hiển thị ở đây.</option>
             </select>
         </div>
 
-        <!-- Selected Book Information -->
+        <!-- Thông tin sách đã chọn -->
         <div id="selectedBookInfo"></div>
 
+        <!-- Chi tiết hoá đơn -->
         <div class="form-group required">
             <label for="">Chi tiết hoá đơn</label>
             <div class="card">
@@ -71,13 +70,25 @@
                                 <label for="EndDate">Ngày Kết Thúc Thuê:</label>
                                 <input type="datetime-local" class="form-control" name="EndDate[]" value="{{ $rentalDetail->EndDate }}" required>
                             </div>
+                            <div class="form-group">
+                                <label for="Status">Trạng thái:</label>
+                                <select class="form-control" name="Status[]" onchange="togglePaymentDate(this)">
+                                    <option value="1" {{ $rentalDetail->Status == 1 ? 'selected' : '' }}>Chưa trả</option>
+                                    <option value="0" {{ $rentalDetail->Status == 0 ? 'selected' : '' }}>Đã trả</option>
+                                </select>
+                            </div>
+
+                            <!-- Ô ngày trả chỉ hiển thị khi Status là "Đã trả" (0) -->
+                            <div class="form-group payment-date-field" @if($rentalDetail->Status == 0) style="" @else style="display: none;" @endif>
+                                <label for="PaymentDate">Ngày trả:</label>
+                                <input type="datetime-local" class="form-control" name="PaymentDate[]" value="{{ $rentalDetail->PaymentDate }}">
+                            </div>
 
                         </div>
                     </div>
                     @endforeach
 
                     @endif
-
                 </div>
             </div>
             <button type="button" class="btn btn-outline-primary btn-sm mb-5" onclick="addBookField()">Thêm</button>
@@ -106,30 +117,26 @@
     // Hàm tìm kiếm với debounce
     const debouncedSearch = debounce(function(searchTerm) {
         if (searchTerm.trim() !== '') {
-            // Make an AJAX request to the book search API
             fetch('/api/book/search/' + searchTerm)
                 .then(response => response.json())
                 .then(data => displaySearchResults(data));
         } else {
-            // Clear the search results
             document.getElementById('bookSearchResults').innerHTML = '<option value="">Kết quả sẽ hiển thị ở đây</option>';
         }
-    }, 1000); // 3000ms debounce time
+    }, 1000); // 1000ms debounce time
 
-    // Event listener với debounce
+    // Event listener cho việc tìm kiếm sách
     document.getElementById('bookSearch').addEventListener('input', function() {
-        var searchTerm = this.value;
-        debouncedSearch(searchTerm);
+        debouncedSearch(this.value);
     });
 
-    // Function to display search results
+    // Hiển thị kết quả tìm kiếm sách
     function displaySearchResults(results) {
-        var resultsContainer = document.getElementById('bookSearchResults');
+        const resultsContainer = document.getElementById('bookSearchResults');
         resultsContainer.innerHTML = '';
-
         if (results.length > 0) {
             results.forEach(book => {
-                var resultOption = document.createElement('option');
+                const resultOption = document.createElement('option');
                 resultOption.value = book.BookID;
                 resultOption.textContent = book.BookTitle;
                 resultsContainer.appendChild(resultOption);
@@ -141,11 +148,10 @@
         }
     }
 
-    // Function to select a book and display its information
+    // Hiển thị thông tin sách đã chọn
     document.getElementById('bookSearchResults').addEventListener('change', function() {
-        var selectedBookId = this.value;
-        if (selectedBookId !== '') {
-            // Make an AJAX request to get the details of the selected book
+        const selectedBookId = this.value;
+        if (selectedBookId) {
             fetch('/api/book/' + selectedBookId)
                 .then(response => response.json())
                 .then(book => displaySelectedBook(book));
@@ -154,102 +160,96 @@
         }
     });
 
-    // Function to display selected book information
+    // Hiển thị thông tin sách đã chọn
     function displaySelectedBook(book) {
-        var selectedBookInfo = document.getElementById('selectedBookInfo');
-        selectedBookInfo.innerHTML = `<p><mark>Sách đang chọn: ${book.BookTitle} - Mã sách: <strong>${book.BookID}</strong></mark>`;
+        const selectedBookInfo = document.getElementById('selectedBookInfo');
+        selectedBookInfo.innerHTML = `<p><mark>Sách đang chọn: ${book.BookTitle} - Mã sách: <strong>${book.BookID}</strong></mark></p>`;
     }
 
-    // Function to add additional book fields dynamically
+    // Thêm trường sách mới vào hoá đơn
     function addBookField() {
-        var additionalBooks = document.getElementById('additionalBooks');
-        var newBookField = document.createElement('div');
+        const additionalBooks = document.getElementById('additionalBooks');
+        const newBookField = document.createElement('div');
         newBookField.innerHTML = `
-            <div class="card card-info">
-                <div class="card-header">
-                    <div class="float-left">
-                        <span class="card-title"></span>
-                        <button type="button" class="btn btn-xs btn-danger ml-1" onclick="deleteBookField()">Xoá</button>
-                    </div>
+        <div class="card card-info">
+            <div class="card-header">
+                <div class="float-left">
+                    <span class="card-title"></span>
+                    <button type="button" class="btn btn-xs btn-danger ml-1" onclick="deleteBookField()">Xoá</button>
                 </div>
+            </div>
 
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="">Mã sách:</label>
-                        <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Ngày Trả:</label>
-                        <input type="datetime-local" class="form-control" name="EndDate[]">
-                    </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="">Mã sách:</label>
+                    <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
                 </div>
-            </div>`;
+                <div class="form-group">
+                    <label for="">Ngày Trả:</label>
+                    <input type="datetime-local" class="form-control" name="EndDate[]">
+                </div>
+            </div>
+        </div>`;
         additionalBooks.appendChild(newBookField);
     }
 
+    // Xoá trường sách
     function deleteBookField() {
-        let card = event.currentTarget.parentNode.parentNode.parentNode;
+        const card = event.currentTarget.closest('.card');
         card.remove();
     }
 
-
+    // Cập nhật tiêu đề sách khi thay đổi mã sách
     function setTitle() {
-        let cardTitle = event.currentTarget.parentNode.parentNode.parentNode.querySelector('.card-title');
-        let bookID = event.currentTarget.value;
-        if (bookID !== '') {
+        const cardTitle = event.currentTarget.closest('.card').querySelector('.card-title');
+        const bookID = event.currentTarget.value;
+        if (bookID) {
             fetch('/api/book/' + bookID)
                 .then(response => response.json())
-                .then(book => {
-                    cardTitle.innerHTML = book.BookTitle;
-                });
+                .then(book => cardTitle.innerHTML = book.BookTitle);
         }
     }
 
-
+    // Kiểm tra form và gửi dữ liệu
     document.getElementById('submitBtn').addEventListener('click', function(event) {
         event.preventDefault();
-
         if (validateForm()) {
             document.querySelector('form').submit();
         }
     });
 
+    // Kiểm tra trùng lặp trong danh sách
     function hasDuplicates(array) {
         return new Set(array).size !== array.length;
     }
 
+    // Kiểm tra tính hợp lệ của form
     function validateForm() {
-        var orderDate = document.getElementsByName('OrderDate')[0];
-        var userID = document.getElementsByName('UserID')[0];
-        var bookIds = document.getElementsByName('BookID[]');
-        let listId = [];
-        bookIds.forEach(function(id) {
-            listId.push(id.value);
-        })
-        console.log(listId);
-        var quantityReceived = document.getElementsByName('QuantityReceived[]');
-        var price = document.getElementsByName('EndDate[]');
+        const orderDate = document.getElementsByName('OrderDate')[0];
+        const userID = document.getElementsByName('UserID')[0];
+        const bookIds = document.getElementsByName('BookID[]');
+        const listId = Array.from(bookIds).map(id => id.value);
 
-        if (orderDate.value === '') {
+        if (!orderDate.value) {
             alert('Vui lòng chọn Ngày nhập.');
             orderDate.focus();
             return false;
         }
-
-        if (userID.value === '') {
+        if (!userID.value) {
             alert('Vui lòng chọn Nhà cung cấp.');
             userID.focus();
             return false;
         }
-
         if (hasDuplicates(listId)) {
             alert("Mã sách không được trùng nhau!");
             return false;
         }
 
+        const quantityReceived = document.getElementsByName('QuantityReceived[]');
+        const price = document.getElementsByName('EndDate[]');
 
-        for (var i = 0; i < quantityReceived.length; i++) {
-            if (quantityReceived[i].value === '' || price[i].value === '') {
+        for (let i = 0; i < quantityReceived.length; i++) {
+            if (!quantityReceived[i].value || !price[i].value) {
                 alert('Vui lòng điền đầy đủ thông tin cho tất cả các sách.');
                 return false;
             }
@@ -263,5 +263,4 @@
         return true;
     }
 </script>
-
 @endsection
