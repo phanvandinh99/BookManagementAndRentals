@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`AdminID`, `Email`, `Password`, `FullName`, `PhoneNumber`) VALUES
 (16, 'admin@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Admin', '1122334455'),
-(17, 'nhat@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Nguễn Văn Nhật', '0906144873');
+(17, 'nhat@gmail.com', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'Lê Sĩ Nhật', '0906144873');
 
 -- --------------------------------------------------------
 
