@@ -21,6 +21,10 @@ class CheckoutController extends Controller
 {
     function checkoutPage(Request $request)
     {
+        if (!Auth::check()) {
+            return back()->with('error', 'Vui lòng đăng nhập để mua hàng.');
+        }
+
         $couponCode = $request->input('couponCode');
         $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userId = Session::get('user')->UserID;
@@ -50,10 +54,14 @@ class CheckoutController extends Controller
                 $discount = round($discount, 2);
                 $totalPriceDiscount = $totalPrice;
                 return view(
-                    "user.checkout-page", compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode'));
+                    "user.checkout-page",
+                    compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode')
+                );
             }
             return view(
-                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode'));
+                "user.checkout-page",
+                compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
+            );
         }
         if ($couponCode) {
             $totalPrice = $bookPrice * (1 - ($coupon->DiscountAmount / 100));
@@ -61,11 +69,13 @@ class CheckoutController extends Controller
             $discount = $totalPrice - $bookPrice;
             $discount = round($discount, 2);
             return view(
-                "user.checkout-page", compact('totalPrice', 'bookPrice', 'discount', 'couponCode')
+                "user.checkout-page",
+                compact('totalPrice', 'bookPrice', 'discount', 'couponCode')
             );
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
+            "user.checkout-page",
+            compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
         );
     }
 
@@ -138,10 +148,12 @@ class CheckoutController extends Controller
 
             return view(
                 "user.order-confirm",
-                ['cartItems' => $cartItems,
+                [
+                    'cartItems' => $cartItems,
                     'totalPrice' => $totalPrice,
                     'bookPrice' => $bookPrice,
-                    'orderID' => $Order->OrderID],
+                    'orderID' => $Order->OrderID
+                ],
             );
         }
     }
