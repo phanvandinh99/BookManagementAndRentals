@@ -81,10 +81,10 @@ class CheckoutController extends Controller
 
     function checkoutConfirm(Request $request)
     {
-
         $couponCode = $request->input('couponCode');
         $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userID = Auth::id();
+
         if ($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
             if (!$cart->CartID) {
@@ -92,11 +92,24 @@ class CheckoutController extends Controller
             }
             $cartID = $cart->CartID;
             $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+
+            // Kiểm tra số lượng trong kho
+            foreach ($cartItems as $cartItem) {
+                $book = $cartItem->book;
+                $stockQuantity = $book->QuantityInStock ?? 0; // Nếu QuantityInStock là null thì gán 0
+
+                if ($cartItem->Quantity > $stockQuantity) {
+                    // Lưu lỗi vào session và chuyển hướng lại
+                    return redirect()->back()->with('error', 'Bạn đã mua ' . $cartItem->Quantity . ' sách "' . $book->BookTitle . '" nhưng trong kho chỉ còn ' . $stockQuantity . ' cuốn.');
+                }
+            }
+
             $totalPrice = 0;
             foreach ($cartItems as $cartItem) {
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
+
         $bookPrice = $totalPrice;
         if ($couponCode && $coupon && !$coupon->IsUsed) {
             $totalPriceOld = $totalPrice + 5;
@@ -116,15 +129,31 @@ class CheckoutController extends Controller
             $address = ShippingAddress::where(['UserID' => $userID])
                 ->where(['Address' => $request->query('shippingAddress')])
                 ->first();
+
             $saleOrders['UserID'] = $userID;
             $saleOrders['OrderStatus'] = 'PENDING';
             $saleOrders['ShippingAddressID'] = $address->AddressID;
             $saleOrders['TotalPrice'] = $totalPrice;
             $saleOrders['ShippingFee'] = 5;
             $saleOrders['OrderDate'] = Carbon::now();
+
             $Order = SalesOrder::create($saleOrders);
 
             foreach ($cartItems as $cartItem) {
+                // Cập nhật số lượng sách trong kho
+                $book = $cartItem->book;
+                $newStockQuantity = $book->QuantityInStock - $cartItem->Quantity;
+            
+                // Kiểm tra nếu số lượng sách không âm
+                if ($newStockQuantity >= 0) {
+                    $book->QuantityInStock = $newStockQuantity;
+                    $book->save();
+                } else {
+                    // Nếu số lượng trong kho không đủ, trả về lỗi
+                    return redirect()->back()->with('error', 'Số lượng sách "' . $book->BookTitle . '" không đủ trong kho.');
+                }
+            
+                // Thêm chi tiết đơn hàng vào SalesOrderDetail
                 $saleOrdersDetail['OrderID'] = $Order->OrderID;
                 $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
                 $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
