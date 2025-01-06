@@ -10,19 +10,21 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    function cartPage(){
+    function cartPage()
+    {
         return view("user.cart-page");
     }
 
-    function addCart(Request $request){
-        if(Auth::check()) {
+    function addCart(Request $request)
+    {
+        if (Auth::check()) {
             $userID = Auth::id();
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
             $cartID = $cart->CartID;
         } else {
             $cartID = session()->get('cartID');
             $cart = ShoppingCart::find($cartID);
-            if(!$cart) {
+            if (!$cart) {
                 $cart = new ShoppingCart();
                 $cart->save();
                 session(['cartID' => $cart->CartID]);
@@ -34,11 +36,10 @@ class CartController extends Controller
         $cartItem = ShoppingCartDetail::where('CartID', $cartID)
             ->where('BookID', $bookID)
             ->first();
-        if($cartItem) {
-            if($bookQnt) {
+        if ($cartItem) {
+            if ($bookQnt) {
                 $cartItem->Quantity += $bookQnt;
-            }
-            else {    
+            } else {
                 $cartItem->Quantity += 1;
             }
             $cartItem->save();
@@ -54,13 +55,13 @@ class CartController extends Controller
 
     public function removeFromCart(Request $request)
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $userID = Auth::id();
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
         } else {
             $cartID = session()->get('cartID');
             $cart = ShoppingCart::find($cartID);
-            if(!$cart) {
+            if (!$cart) {
                 $cart = new ShoppingCart();
                 $cart->save();
                 session(['cartID' => $cart->CartID]);
@@ -96,7 +97,7 @@ class CartController extends Controller
         ]);
 
         $cartQuantities = $request->input('cart-qty');
-        
+
         foreach ($cartQuantities as $cartItemID => $quantity) {
             $cartDetail = ShoppingCartDetail::find($cartItemID);
             if ($cartDetail) {
