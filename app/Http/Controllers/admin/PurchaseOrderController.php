@@ -23,14 +23,12 @@ class PurchaseOrderController extends Controller
     public function index(Request $request)
     {
         $purchaseOrders = PurchaseOrder::query();
-        if ($request->has('search'))
-        {
+        if ($request->has('search')) {
             $searchText = $request->input('search');
             $purchaseOrders->where('OrderID', '=', $searchText);
         }
         $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
-        if (empty($request->input('order')))
-        {
+        if (empty($request->input('order'))) {
             $orderBy = 'desc';
         }
         $purchaseOrders->orderBy('OrderID', $orderBy);
@@ -74,8 +72,9 @@ class PurchaseOrderController extends Controller
         $quantities = $request->input('QuantityReceived');
         $prices = $request->input('Price');
 
-        // Lưu chi tiết hoá đơn nhập
+        // Lưu chi tiết hoá đơn nhập và cập nhật số lượng sách
         foreach ($bookIDs as $key => $bookID) {
+            // Lưu chi tiết hóa đơn nhập
             $purchaseOrderDetail = new PurchaseOrderDetail();
             $purchaseOrderDetail->OrderID = $purchaseOrder->OrderID;
             $purchaseOrderDetail->BookID = $bookID;
@@ -85,15 +84,25 @@ class PurchaseOrderController extends Controller
             $purchaseOrderDetail->SubTotal = $subTotal;
             $purchaseOrderDetail->save();
 
+            // Cập nhật tổng giá
             $totalPrice += $subTotal;
+
+            // Cập nhật số lượng sách trong kho
+            $book = Book::find($bookID);
+            if ($book) {
+                $book->QuantityInStock += $quantities[$key];
+                $book->save();
+            }
         }
 
+        // Cập nhật tổng giá vào hóa đơn nhập
         $purchaseOrder->TotalPrice = $totalPrice;
         $purchaseOrder->save();
 
         return redirect()->route('purchase-order.show', $purchaseOrder->OrderID)
-            ->with('success', 'Tạo hoá đơn nhập thành công!');
+            ->with('success', 'Tạo hoá đơn nhập thành công và cập nhật số lượng sách trong kho!');
     }
+
 
     /**
      * Display the specified resource.
@@ -142,15 +151,27 @@ class PurchaseOrderController extends Controller
 
         $totalPrice = 0;
 
-        // Lấy data
+        // Lấy dữ liệu từ request
         $bookIDs = $request->input('BookID');
         $quantities = $request->input('QuantityReceived');
         $prices = $request->input('Price');
 
-        // Xoá các chi tiết hoá đơn nhập đã tồn tại
+        // Lấy chi tiết hóa đơn nhập cũ
+        $oldDetails = PurchaseOrderDetail::where('OrderID', $id)->get();
+
+        // Cập nhật số lượng tồn kho trước khi xóa chi tiết cũ
+        foreach ($oldDetails as $oldDetail) {
+            $book = Book::find($oldDetail->BookID);
+            if ($book) {
+                $book->QuantityInStock -= $oldDetail->QuantityReceived;
+                $book->save();
+            }
+        }
+
+        // Xóa các chi tiết hóa đơn nhập cũ
         PurchaseOrderDetail::where('OrderID', $id)->delete();
 
-        // Lưu và cập nhật các hoá đơn nhập mới
+        // Lưu chi tiết hóa đơn nhập mới và cập nhật số lượng tồn kho
         foreach ($bookIDs as $key => $bookID) {
             $purchaseOrderDetail = new PurchaseOrderDetail();
             $purchaseOrderDetail->OrderID = $purchaseOrder->OrderID;
@@ -162,6 +183,13 @@ class PurchaseOrderController extends Controller
             $purchaseOrderDetail->save();
 
             $totalPrice += $subTotal;
+
+            // Cập nhật số lượng tồn kho mới
+            $book = Book::find($bookID);
+            if ($book) {
+                $book->QuantityInStock += $quantities[$key];
+                $book->save();
+            }
         }
 
         // Cập nhật tổng tiền
@@ -169,8 +197,9 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->save();
 
         return redirect()->route('purchase-order.show', $id)
-            ->with('success', 'Cập nhật hoá đơn nhập thành công!');
+            ->with('success', 'Cập nhật hoá đơn nhập và số lượng sách trong kho thành công!');
     }
+
 
     /**
      * @param int $id
@@ -185,7 +214,8 @@ class PurchaseOrderController extends Controller
             ->with('success', 'PurchaseOrder deleted successfully');
     }
 
-    function getAll(){
+    function getAll()
+    {
         return response()->json(PurchaseOrder::all());
     }
 }
