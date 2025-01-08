@@ -502,6 +502,7 @@ CREATE TABLE `salesorder` (
   `ShippingFee` decimal(10,2) DEFAULT NULL COMMENT 'Phí vận chuyển',
   `OrderNote` mediumtext DEFAULT NULL COMMENT 'Ghi chú về đơn hàng',
   `Discount` decimal(4,2) DEFAULT NULL COMMENT 'Khuyến mại (Sau khi áp dụng voucher)',
+  `PaymentType` ENUM('Online', 'Cash')  DEFAULT 'Cash' COMMENT 'Hình thức thanh toán (Online hoặc tiền mặt)',
   `TotalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về hoá đơn bán';
 
