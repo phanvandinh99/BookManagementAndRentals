@@ -49,19 +49,37 @@
                         @php
                         $totalPrice = !empty($totalPriceDiscount) ? $totalPriceDiscount : $totalPrice;
                         @endphp
-                        <strong>Total (VND)</strong>
-                        <strong>{{ $totalPrice  }}</strong>
+                        <strong>Tổng Tiền (VND)</strong>
+                        <strong>{{ $totalPrice }}</strong>
                     </div>
-                    @if($shippingAddressList->count() > 0)
-                    <a href="{{ Route('checkout.confirm', ['shippingAddress' => '']) }}"
-                        class="btn btn-primary btn-lg btn-primary"
-                        id="checkout-submit">
-                        Đặt đơn
-                    </a>
-                    @else
-                    <div style="color: red; font-weight: bold; justify-content:center">Hãy Thêm Địa Chỉ Giao Hàng Để Đặt Đơn</div>
-                    @endif
                 </div>
+
+                <form method="GET" action="{{ route('checkout.confirm') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <h6 class="my-0">Chọn hình thức thanh toán</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentType" id="paymentCash" value="Cash" checked>
+                            <label class="form-check-label" for="paymentCash">Thanh toán bằng tiền mặt</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentType" id="paymentOnline" value="Online">
+                            <label class="form-check-label" for="paymentOnline">Thanh toán online</label>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="shippingAddress" id="hiddenShippingAddress">
+                    <input type="hidden" name="couponCode" value="{{ $couponCode }}">
+
+                    @if($shippingAddressList->count() > 0)
+                    <button type="submit" class="btn btn-primary btn-lg btn-primary" id="checkout-submit">Đặt đơn</button>
+                    @else
+                    <div style="color: red; font-weight: bold; justify-content:center">
+                        Hãy Thêm Địa Chỉ Giao Hàng Để Đặt Đơn
+                    </div>
+                    @endif
+                </form>
+
             </div>
             <div class="cart-block-right col-md-8 order-md-1">
                 <h4 class="mb-3">Thông tin giao hàng</h4>

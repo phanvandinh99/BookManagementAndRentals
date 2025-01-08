@@ -76,6 +76,7 @@ Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->
 Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkout.page');
 Route::get('/checkout/confirm', [CheckoutController::class, 'checkoutConfirm'])->name('checkout.confirm');
 Route::put('/confirm/cancel', [CheckoutController::class, 'cancelOrder'])->name('cancel.order');
+Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
 
 // -------------Coupon------------------------- //
 Route::post('/coupon', [CouponController::class, 'applyCoupon'])->name('coupon.apply');
