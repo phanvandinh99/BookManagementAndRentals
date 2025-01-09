@@ -42,6 +42,7 @@ class CheckoutController extends Controller
             foreach ($cartItems as $cartItem) {
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
+
         }
         $bookPrice = $totalPrice;
 
@@ -49,15 +50,16 @@ class CheckoutController extends Controller
             $totalPrice += 5;
             if ($couponCode) {
                 $totalPrice = $totalPrice * (1 - ($coupon->DiscountAmount / 100));
-                $totalPrice = round($totalPrice, 2);
-                $discount = $totalPrice - ($bookPrice + 5);
-                $discount = round($discount, 2);
+                $totalPrice = number_format($totalPrice, 2, '.', '');
+                $discount = ($bookPrice + 5) - $totalPrice;
+                $discount = number_format($discount, 2, '.', '');
                 $totalPriceDiscount = $totalPrice;
                 return view(
                     "user.checkout-page",
                     compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode')
                 );
             }
+            $totalPrice = number_format($totalPrice, 2, '.', '');
             return view(
                 "user.checkout-page",
                 compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
@@ -65,14 +67,15 @@ class CheckoutController extends Controller
         }
         if ($couponCode) {
             $totalPrice = $bookPrice * (1 - ($coupon->DiscountAmount / 100));
-            $totalPrice = round($totalPrice, 2);
-            $discount = $totalPrice - $bookPrice;
-            $discount = round($discount, 2);
+            $totalPrice = number_format($totalPrice, 2, '.', '');
+            $discount = $bookPrice - $totalPrice;
+            $discount = number_format($discount, 2, '.', '');
             return view(
                 "user.checkout-page",
                 compact('totalPrice', 'bookPrice', 'discount', 'couponCode')
             );
         }
+        $totalPrice = number_format($totalPrice, 2, '.', '');
         return view(
             "user.checkout-page",
             compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
@@ -219,19 +222,17 @@ class CheckoutController extends Controller
                 ksort($inputData);
 
                 // Xây dựng chuỗi query từ mảng inputData
-                $query = http_build_query($inputData);
-
-                // In ra query để kiểm tra
-                dd($query);
+                $query = [];
+                foreach ($inputData as $key => $value) {
+                    $query[] = urlencode($key) . "=" . urlencode($value);
+                }
+                $queryString = implode('&', $query);
 
                 // Tạo chuỗi hash bảo mật với HMAC-SHA512
-                $vnpSecureHash = hash_hmac('sha512', urldecode($query), $vnp_HashSecret);
-
-                // In ra chữ ký để kiểm tra
-                dd($vnpSecureHash);
+                $vnpSecureHash = hash_hmac('sha512', $queryString, $vnp_HashSecret);
 
                 // Thêm mã bảo mật vào URL gửi đến VNPAY
-                $vnp_Url = $vnpUrl . "?" . $query . "&vnp_SecureHash=" . $vnpSecureHash;
+                $vnp_Url = $vnpUrl . "?" . $queryString . "&vnp_SecureHash=" . $vnpSecureHash;
 
                 // Chuyển hướng đến VNPAY để thực hiện thanh toán
                 return redirect($vnp_Url);
@@ -243,10 +244,10 @@ class CheckoutController extends Controller
     {
         $vnp_SecureHash = $request->query('vnp_SecureHash');
         $vnp_SecureHashType = $request->query('vnp_SecureHashType');
-        $inputData = $request->except(['vnp_SecureHash', 'vnp_SecureHashType']); // Các tham số trả về từ VNPAY
+        $inputData = $request->except(['vnp_SecureHash', 'vnp_SecureHashType']);
 
         // Xử lý xác minh mã bảo mật
-        $vnp_HashSecret = "3CP0V5HCDJ6VFE1YPVYL85YUHK1SGLLP"; // Chuỗi bí mật
+        $vnp_HashSecret = "3CP0V5HCDJ6VFE1YPVYL85YUHK1SGLLP";
         ksort($inputData);
         $query = http_build_query($inputData);
         $hashdata = urldecode($query);
