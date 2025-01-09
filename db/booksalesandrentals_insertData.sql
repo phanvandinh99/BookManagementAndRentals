@@ -668,11 +668,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về người dùng';
 
 INSERT INTO `user` (`UserID`, `UserName`, `password`, `email`, `FirstName`, `LastName`, `Gender`, `PhoneNumber`, `DateOfBirth`, `CreatedDate`, `ModifiedDate`, `ConfirmCode`) 
-VALUES ( 1, 'nhat', 'Abc123456', 'nhat@gmail.com', 'Lê Sĩ', 'Nhật', 'Nam', '1234567890', '2000-01-01', CURRENT_TIMESTAMP, NULL, 'Abc123456');
+VALUES ( 1, 'nhat', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'nhat@gmail.com', 'Lê Sĩ', 'Nhật', 'Nam', '1234567890', '2000-01-01', CURRENT_TIMESTAMP, NULL, 'Abc123456');
 INSERT INTO `user` (`UserID`, `UserName`, `password`, `email`, `FirstName`, `LastName`, `Gender`, `PhoneNumber`, `DateOfBirth`, `CreatedDate`, `ModifiedDate`, `ConfirmCode`) 
-VALUES ( 2, 'hung', 'Abc123456', 'hung@gmail.com', 'Nguyễn Phi', 'Hùng', 'Nam', '1234567899', '2000-12-11', CURRENT_TIMESTAMP, NULL, 'Abc123456');
+VALUES ( 2, 'hung', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'hung@gmail.com', 'Nguyễn Phi', 'Hùng', 'Nam', '1234567899', '2000-12-11', CURRENT_TIMESTAMP, NULL, 'Abc123456');
 INSERT INTO `user` (`UserID`, `UserName`, `password`, `email`, `FirstName`, `LastName`, `Gender`, `PhoneNumber`, `DateOfBirth`, `CreatedDate`, `ModifiedDate`, `ConfirmCode`) 
-VALUES ( 3, 'vien', 'Abc123456', 'vien@gmail.com', 'Nguyễn Minh', 'Viên', 'Nam', '1234567899', '2000-06-03', CURRENT_TIMESTAMP, NULL, 'Abc123456');
+VALUES ( 3, 'vien', '$2a$12$MbGTfsnvq5JkoBBJOgo1LOOSo7UMaTRZvmu54n9aBcl1zmaEOv2SC', 'vien@gmail.com', 'Nguyễn Minh', 'Viên', 'Nam', '1234567899', '2000-06-03', CURRENT_TIMESTAMP, NULL, 'Abc123456');
 -- --------------------------------------------------------
 
 --
