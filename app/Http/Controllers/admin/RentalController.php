@@ -75,6 +75,7 @@ class RentalController extends Controller
         $totalBookCost = 0;
         $totalRentalPrice = 0;
         $totalPrice = 0;
+        $errorMessages = [];
 
         // Lấy dữ liệu chi tiết sách từ form
         $bookIDs = $request->input('BookID', []);
@@ -85,6 +86,14 @@ class RentalController extends Controller
             if (!empty($bookID)) {
                 $book = Book::find($bookID);
                 if ($book) {
+                    // Kiểm tra số lượng sách trong kho
+                    if ($book->QuantityInStock <= 0) {
+                        // Nếu không còn sách trong kho, thêm lỗi vào mảng errorMessages
+                        $errorMessages[] = "Sách '{$book->BookTitle}' không đủ để mượn.";
+                        continue; // Bỏ qua sách này và tiếp tục với sách khác
+                    }
+
+                    // Lưu chi tiết hoá đơn thuê
                     $rentalDetail = new RentalDetail();
                     $rentalDetail->RentalID = $rental->RentalID;
                     $rentalDetail->BookID = $bookID;
@@ -106,8 +115,17 @@ class RentalController extends Controller
 
                     // Giả sử giá thuê mỗi ngày là 2000
                     $totalRentalPrice += $rentalDays * 2000;
+
+                    // Giảm số lượng sách trong kho
+                    $book->QuantityInStock -= 1; // Giảm 1 cuốn sách
+                    $book->save();
                 }
             }
+        }
+
+        // Nếu có lỗi về số lượng sách, trả về thông báo lỗi
+        if (count($errorMessages) > 0) {
+            return redirect()->route('rental.index')->withErrors($errorMessages);
         }
 
         // Cập nhật tổng giá trị vào hoá đơn
@@ -119,6 +137,7 @@ class RentalController extends Controller
 
         return redirect()->route('rental.index')->with('success', 'Tạo hoá đơn mượn thành công!');
     }
+
 
     /**
      * Display the specified resource.
@@ -201,8 +220,11 @@ class RentalController extends Controller
                     // Gán PaymentDate nếu Status là "Đã trả" (0)
                     if ($rentalDetail->Status == 0) {
                         $rentalDetail->PaymentDate = Carbon::now(); // Ngày hiện tại
+                        // Nếu sách đã trả (Status = 0), tăng số lượng sách trong kho
+                        $book->QuantityInStock += 1;
                     } else {
                         $rentalDetail->PaymentDate = null; // Không có giá trị nếu chưa trả
+                        // Nếu sách chưa trả (Status = 1), không thay đổi số lượng trong kho
                     }
 
                     $rentalDetail->save();
@@ -210,15 +232,22 @@ class RentalController extends Controller
                     // Tính tổng giá trị
                     $totalBookCost += $book->SellingPrice;
 
+                    // Tính số ngày thuê (sử dụng Carbon để tính số ngày giữa EndDate và StartDate)
                     $startDate = Carbon::parse($rental->DateCreated);
                     $endDate = Carbon::parse($endDates[$key]);
                     $rentalDays = $startDate->diffInDays($endDate);
 
-                    $totalRentalPrice += $rentalDays * 2000; // Giá thuê mỗi ngày
+                    // Giá thuê mỗi ngày
+                    $totalRentalPrice += $rentalDays * 2000;
+
+                    // Nếu sách chưa trả (Status = 1), giảm số lượng sách trong kho khi mượn
+                    if ($rentalDetail->Status == 1) {
+                        $book->QuantityInStock -= 1;
+                    }
+                    $book->save();
                 }
             }
         }
-
 
         // Cập nhật tổng tiền
         $rental->TotalBookCost = $totalBookCost;
@@ -228,6 +257,7 @@ class RentalController extends Controller
 
         return redirect()->route('rental.show', $id)->with('success', 'Cập nhật hóa đơn mượn thành công!');
     }
+
 
 
     /**
@@ -241,6 +271,19 @@ class RentalController extends Controller
         $rental = Rental::find($id);
         if (!$rental) {
             return redirect()->route('rental.index')->withErrors('Hóa đơn mượn không tồn tại.');
+        }
+
+        // Lấy tất cả các chi tiết liên quan
+        $rentalDetails = RentalDetail::where('RentalID', $id)->get();
+
+        // Cập nhật số lượng sách trong kho nếu trạng thái là chưa trả (Status = 1)
+        foreach ($rentalDetails as $rentalDetail) {
+            $book = Book::find($rentalDetail->BookID);
+            if ($book && $rentalDetail->Status == 1) {
+                // Nếu sách chưa trả, tăng lại số lượng trong kho
+                $book->QuantityInStock += 1;
+                $book->save();
+            }
         }
 
         // Xóa các chi tiết liên quan
