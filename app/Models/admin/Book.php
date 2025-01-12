@@ -147,12 +147,12 @@ class Book extends Model
         {
             return 0;
         }
-        return $this->attributes['CostPrice'] * 1000;
+        return $this->attributes['CostPrice'];
     }
 
     public function setCostPriceAttribute($val)
     {
-        $this->attributes['CostPrice'] = $val / 1000;
+        $this->attributes['CostPrice'] = $val;
     }
 
     public function getSellingPriceAttribute()
@@ -161,12 +161,12 @@ class Book extends Model
         {
             return 0;
         }
-        return $this->attributes['SellingPrice'] * 1000;
+        return $this->attributes['SellingPrice'];
     }
 
     public function setSellingPriceAttribute($val)
     {
-        $this->attributes['SellingPrice'] = $val / 1000;
+        $this->attributes['SellingPrice'] = $val;
     }
 
     public function getWeightAttribute()
@@ -175,12 +175,12 @@ class Book extends Model
         {
             return 0;
         }
-        return $this->attributes['Weight'] * 1000;
+        return $this->attributes['Weight'];
     }
 
     public function setWeightAttribute($val)
     {
-        $this->attributes['Weight'] = $val / 1000;
+        $this->attributes['Weight'] = $val;
     }
 
 

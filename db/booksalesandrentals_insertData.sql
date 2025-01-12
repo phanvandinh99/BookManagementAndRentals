@@ -65,8 +65,8 @@ CREATE TABLE `book` (
   `BookTitle` varchar(255) DEFAULT NULL COMMENT 'Tên sách',
   `Author` varchar(255) DEFAULT NULL COMMENT 'Tên tác giả',
   `PublisherID` int(11) DEFAULT NULL COMMENT 'Mã nhà xuất bản',
-  `CostPrice` decimal(10,2) DEFAULT NULL COMMENT 'Giá nhập (Giá ban đầu)',
-  `SellingPrice` decimal(10,2) DEFAULT NULL COMMENT 'Giá bán',
+  `CostPrice` decimal DEFAULT NULL COMMENT 'Giá nhập (Giá ban đầu)',
+  `SellingPrice` decimal DEFAULT NULL COMMENT 'Giá bán',
   `QuantityInStock` int(11) DEFAULT NULL COMMENT 'Số lượng sách còn lại',
   `PageCount` int(11) DEFAULT NULL COMMENT 'Số trang',
   `Weight` decimal(6,2) DEFAULT NULL COMMENT 'Trọng lượng',
@@ -454,7 +454,7 @@ CREATE TABLE `purchaseorder` (
   `OrderID` int(11) NOT NULL COMMENT 'Mã hoá đơn nhập',
   `OrderDate` datetime DEFAULT NULL COMMENT 'Ngày nhập',
   `SupplierID` int(11) DEFAULT NULL COMMENT 'Mã nhà cung cấp',
-  `TotalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền'
+  `TotalPrice` decimal DEFAULT NULL COMMENT 'Tổng tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về hoá đơn nhập';
 
 -- --------------------------------------------------------
@@ -467,8 +467,8 @@ CREATE TABLE `purchaseorderdetail` (
   `OrderID` int(11) NOT NULL COMMENT 'Mã hoá đơn nhập',
   `BookID` int(11) NOT NULL COMMENT 'Mã sách',
   `QuantityReceived` int(11) DEFAULT NULL COMMENT 'Số lượng sách đã nhập',
-  `Price` decimal(10,2) DEFAULT NULL COMMENT 'Giá tiền một cuốn sách',
-  `SubTotal` decimal(10,2) DEFAULT NULL COMMENT 'Thành tiền'
+  `Price` decimal DEFAULT NULL COMMENT 'Giá tiền một cuốn sách',
+  `SubTotal` decimal DEFAULT NULL COMMENT 'Thành tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về chi tiết hoá đơn nhập';
 
 -- --------------------------------------------------------
@@ -499,11 +499,11 @@ CREATE TABLE `salesorder` (
   `UserID` int(11) DEFAULT NULL COMMENT 'Mã người dùng',
   `OrderStatus` varchar(255) DEFAULT NULL COMMENT 'Trạng thái đơn hàng',
   `ShippingAddressID` int(11) DEFAULT NULL COMMENT 'Mã địa chỉ trong sổ địa chỉ',
-  `ShippingFee` decimal(10,2) DEFAULT NULL COMMENT 'Phí vận chuyển',
+  `ShippingFee` decimal DEFAULT NULL COMMENT 'Phí vận chuyển',
   `OrderNote` mediumtext DEFAULT NULL COMMENT 'Ghi chú về đơn hàng',
   `Discount` decimal(4,2) DEFAULT NULL COMMENT 'Khuyến mại (Sau khi áp dụng voucher)',
   `PaymentType` ENUM('Online', 'Cash')  DEFAULT 'Cash' COMMENT 'Hình thức thanh toán (Online hoặc tiền mặt)',
-  `TotalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền'
+  `TotalPrice` decimal DEFAULT NULL COMMENT 'Tổng tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về hoá đơn bán';
 
 -- --------------------------------------------------------
@@ -516,8 +516,8 @@ CREATE TABLE `salesorderdetail` (
   `OrderID` int(11) NOT NULL COMMENT 'Mã hoá đơn bán',
   `BookID` int(11) NOT NULL COMMENT 'Mã sách',
   `QuantitySold` int(11) DEFAULT NULL COMMENT 'Số lượng bán',
-  `Price` decimal(10,2) DEFAULT NULL COMMENT 'Giá sách',
-  `SubTotal` decimal(10,2) DEFAULT NULL COMMENT 'Thành tiền'
+  `Price` decimal DEFAULT NULL COMMENT 'Giá sách',
+  `SubTotal` decimal DEFAULT NULL COMMENT 'Thành tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về chi tiết hoá đơn bán';
 
 -- --------------------------------------------------------
@@ -567,9 +567,9 @@ CREATE TABLE `rental` (
   `UserID` int(11) DEFAULT NULL COMMENT 'Mã người dùng',
   `DateCreated` DATETIME DEFAULT NULL COMMENT 'Ngày Tạo',
   `Status` tinyint(1) DEFAULT 0 COMMENT 'Đã trả hết/ chưa trả',
-  `TotalBookCost` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền sách',
-  `TotalRentalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng giá thuê',
-  `TotalPrice` decimal(10,2) DEFAULT NULL COMMENT 'Tổng tiền'
+  `TotalBookCost` decimal DEFAULT NULL COMMENT 'Tổng tiền sách',
+  `TotalRentalPrice` decimal DEFAULT NULL COMMENT 'Tổng giá thuê',
+  `TotalPrice` decimal DEFAULT NULL COMMENT 'Tổng tiền'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci COMMENT='Bảng lưu trữ thông tin về thuê sách';
 
 -- --------------------------------------------------------

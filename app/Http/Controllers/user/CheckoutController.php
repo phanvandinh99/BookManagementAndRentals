@@ -42,16 +42,15 @@ class CheckoutController extends Controller
             foreach ($cartItems as $cartItem) {
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
-
         }
         $bookPrice = $totalPrice;
 
         if ($shippingAddressDefault) {
-            $totalPrice += 5;
+            $totalPrice += 10000;
             if ($couponCode) {
                 $totalPrice = $totalPrice * (1 - ($coupon->DiscountAmount / 100));
                 $totalPrice = number_format($totalPrice, 2, '.', '');
-                $discount = ($bookPrice + 5) - $totalPrice;
+                $discount = ($bookPrice + 10000) - $totalPrice;
                 $discount = number_format($discount, 2, '.', '');
                 $totalPriceDiscount = $totalPrice;
                 return view(
@@ -116,7 +115,7 @@ class CheckoutController extends Controller
 
         $bookPrice = $totalPrice;
         if ($couponCode && $coupon && !$coupon->IsUsed) {
-            $totalPriceOld = $totalPrice + 5;
+            $totalPriceOld = $totalPrice + 10000;
             $discountAmount = $coupon->DiscountAmount / 100;
             $discount = $totalPriceOld * $discountAmount;
             $totalPrice = round($totalPriceOld - $discount, 2);
@@ -138,7 +137,7 @@ class CheckoutController extends Controller
             $saleOrders['OrderStatus'] = 'PENDING';
             $saleOrders['ShippingAddressID'] = $address;
             $saleOrders['TotalPrice'] = $totalPrice;
-            $saleOrders['ShippingFee'] = 5;
+            $saleOrders['ShippingFee'] = 10000;
             $saleOrders['OrderDate'] = Carbon::now();
 
             $Order = SalesOrder::create($saleOrders);
@@ -240,33 +239,39 @@ class CheckoutController extends Controller
         }
     }
 
-    public function vnpayReturn(Request $request)
+    function vnpayReturn(Request $request)
     {
-        $vnp_SecureHash = $request->query('vnp_SecureHash');
-        $vnp_SecureHashType = $request->query('vnp_SecureHashType');
-        $inputData = $request->except(['vnp_SecureHash', 'vnp_SecureHashType']);
+        $responseCode = $request->query('vnp_ResponseCode');
+        $orderID = $request->query('vnp_TxnRef');
+        $order = SalesOrder::find($orderID);
 
-        // Xử lý xác minh mã bảo mật
-        $vnp_HashSecret = "3CP0V5HCDJ6VFE1YPVYL85YUHK1SGLLP";
-        ksort($inputData);
-        $query = http_build_query($inputData);
-        $hashdata = urldecode($query);
-        $vnpSecureHashCheck = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-
-        // Kiểm tra mã bảo mật
-        if ($vnp_SecureHash == $vnpSecureHashCheck) {
-            // Xử lý kết quả giao dịch
-            if ($request->query('vnp_ResponseCode') == '00') {
-                // Thanh toán thành công
-                return view('checkout.success');
-            } else {
-                // Thanh toán thất bại
-                return view('checkout.failure');
-            }
-        } else {
-            // Mã bảo mật không hợp lệ
-            return view('checkout.failure');
+        if (!$order) {
+            return redirect()->route('user.checkout-page')->with('error', 'Đơn hàng không tồn tại.');
         }
+
+        if ($responseCode == '00') {
+            // Cập nhật trạng thái đơn hàng
+            $order->update(['OrderStatus' => 'COMPLETED']);
+
+            // Lấy CartID từ ShoppingCart
+            $cart = ShoppingCart::where('UserID', $order->UserID)->first();
+
+            $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cart->CartID)->get();
+
+            if ($cart) {
+                // Xóa chi tiết giỏ hàng
+                ShoppingCartDetail::where('CartID', $cart->CartID)->delete();
+            }
+
+            return view("user.order-confirm", [
+                'cartItems' => $cartItems,
+                'totalPrice' => $order->TotalPrice,
+                'bookPrice' => $order->TotalPrice - $order->ShippingFee,
+                'orderID' => $order->OrderID,
+            ]);
+        }
+
+        return redirect()->route('user.checkout-page')->with('error', 'Thanh toán thất bại.');
     }
 
 

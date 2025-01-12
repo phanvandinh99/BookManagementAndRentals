@@ -126,11 +126,6 @@
                                                                 class="material-icons">shopping_cart</i><span>Add to
                                                             cart</span>
                                                         </button>
-                                                        <a href="#" class="btn btn-primary btn-wishlist"><i
-                                                                class="material-icons">favorite</i><span>wishlist</span></a>
-                                                        <button type="button" class="btn btn-primary btn-compare"><i
-                                                                class="material-icons">equalizer</i><span>Compare</span>
-                                                        </button>
                                                         <button type="button" class="btn btn-primary btn-quickview"
                                                                 data-toggle="modal" data-target="#product_view"
                                                                 data-book-name="{{ $book->BookTitle }}"
@@ -231,11 +226,6 @@
                                                                     >
                                                                         <i class="material-icons">shopping_cart</i>
                                                                         <span>Add to cart</span>
-                                                                    </button>
-                                                                    <a href="#" class="btn btn-primary btn-wishlist"><i
-                                                                            class="material-icons">favorite</i><span>wishlist</span></a>
-                                                                    <button type="button" class="btn btn-primary btn-compare"><i
-                                                                            class="material-icons">equalizer</i><span>Compare</span>
                                                                     </button>
                                                                     <button type="button" class="btn btn-primary btn-quickview"
                                                                             data-toggle="modal" data-target="#product_view"
