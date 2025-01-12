@@ -2,7 +2,7 @@
     <div class="box-body">
         <div class="form-group required">
             {{ Form::label('Khách Mượn') }}
-            <select name="UserID" class="form-control">
+            <select name="UserID" class="form-control" required>
                 <option value="">-- Khách Mượn --</option>
                 @foreach($users as $user)
                 <option value="{{ $user->UserID }}" {{ $user->UserID == $rental->UserID ? 'selected' : '' }}>
@@ -41,11 +41,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="BookID">Mã sách:</label>
-                                <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
+                                <input type="text" class="form-control" name="BookID[]" onchange="setTitle()" required>
                             </div>
                             <div class="form-group">
                                 <label for="EndDate">Ngày Kết Thúc Thuê:</label>
-                                <input type="datetime-local" class="form-control" name="EndDate[]">
+                                <input type="datetime-local" class="form-control" name="EndDate[]" id="endDate" required>
                             </div>
                         </div>
                     </div>
@@ -182,11 +182,11 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="">Mã sách:</label>
-                    <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
+                    <input type="text" class="form-control" name="BookID[]" onchange="setTitle()" required>
                 </div>
                 <div class="form-group">
                     <label for="">Ngày Trả:</label>
-                    <input type="datetime-local" class="form-control" name="EndDate[]">
+                    <input type="datetime-local" class="form-control" name="EndDate[]" required>
                 </div>
             </div>
         </div>`;
@@ -263,4 +263,12 @@
         return true;
     }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().slice(0, 16);
+        document.getElementById('endDate').setAttribute('min', formattedDate);
+    });
+</script>
+
 @endsection
