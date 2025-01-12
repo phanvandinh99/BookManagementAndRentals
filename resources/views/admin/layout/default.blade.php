@@ -335,9 +335,9 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Sinh viên thực hiện:<a href="https://adminlte.io"> Nhật, Minh, Nam</a>.</strong>
+        <strong>Sinh viên thực hiện:<a href="https://adminlte.io"> Nhật, Viên, Hùng</a>.</strong>
         <div class="float-right d-none d-sm-inline-block">
-            <b>Đà Nẵng</b> 12/2024
+            <b>Đà Nẵng</b> 01/2025
         </div>
     </footer>
 
