@@ -75,12 +75,12 @@ class SalesOrder extends Model
         {
             return 0;
         }
-        return $this->attributes['TotalPrice'] * 1000;
+        return $this->attributes['TotalPrice'];
     }
 
     public function setTotalPriceAttribute($val)
     {
-        $this->attributes['TotalPrice'] = $val / 1000;
+        $this->attributes['TotalPrice'] = $val;
     }
 
     public function getShippingFeeAttribute()
@@ -89,12 +89,12 @@ class SalesOrder extends Model
         {
             return 0;
         }
-        return $this->attributes['ShippingFee'] * 1000;
+        return $this->attributes['ShippingFee'];
     }
 
     public function setShippingFeeAttribute($val)
     {
-        $this->attributes['ShippingFee'] = $val / 1000;
+        $this->attributes['ShippingFee'] = $val;
     }
 
     public function getDiscountAttribute()
@@ -103,12 +103,12 @@ class SalesOrder extends Model
         {
             return 0;
         }
-        return $this->attributes['Discount'] * 100;
+        return $this->attributes['Discount'];
     }
 
     public function setDiscountAttribute($val)
     {
-        $this->attributes['Discount'] = $val / 100;
+        $this->attributes['Discount'] = $val;
     }
 
     public function getOrderStatusAttribute()
