@@ -35,7 +35,7 @@
                         <div>
                             <h6 class="my-0">Chi phí vận chuyển</h6>
                         </div>
-                        <span class="text-muted">5 đ</span>
+                        <span class="text-muted">10.000 đ</span>
                     </div>
                     @if($couponCode)
                     <div class="list-group-item d-flex justify-content-between">

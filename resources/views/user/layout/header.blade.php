@@ -160,7 +160,7 @@
     }
 
     function updateTotalPrice(price) {
-        $('.ttprice').text(price + 5);
+        $('.ttprice').text(price + 10000);
     }
 
     $(document).ready(function() {

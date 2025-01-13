@@ -48,7 +48,7 @@
                   </tr>
                   <tr class="mb-10">
                     <td>Chi phí vận chuyển</td>
-                    <td class="text-right">5 đ</td>
+                    <td class="text-right">10.000 đ</td>
                   </tr>
                   <tr class="font-weight-bold">
                     <td>
