@@ -10,6 +10,6 @@ if (!function_exists('set_active')) {
 if (!function_exists('formatVND')) {
     function formatVND($amount)
     {
-        return number_format($amount, 0, ',', '.') . ' VNĐ';
+        return number_format($amount, 0, ',', '.') . ' vnđ';
     }
 }

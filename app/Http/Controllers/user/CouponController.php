@@ -7,20 +7,26 @@ use App\Models\admin\Coupon;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+use function Laravel\Prompts\alert;
+
 class CouponController extends Controller
 {
-    public function applyCoupon(Request $request){
+    public function applyCoupon(Request $request)
+    {
         $data = $request->all();
-        $totalPriceOld = floatval($data['totalPrice']);
+        // $totalPriceOld = floatval($data['totalPrice'].str_replace(".",""));
+        $totalPriceOld = floatval(str_replace(".", "", $data['totalPrice']));
+
         $couponCode = $data['couponCode'];
 
         $coupon = Coupon::where('CouponCode', $couponCode)->first();
         if ($coupon) {
             if (!$coupon->IsUsed && Carbon::now() <= $coupon->ExpiryDate) {
-//                $coupon->IsUsed = 1;
-//                $coupon->save();
+                //                $coupon->IsUsed = 1;
+                //                $coupon->save();
+                // dd($totalPriceOld);
 
-                $totalPrice = $totalPriceOld * (1-($coupon->DiscountAmount/100));
+                $totalPrice = $totalPriceOld * (1 - ($coupon->DiscountAmount / 100));
 
                 $totalPrice = round($totalPrice, 2);
                 $discount = $totalPrice - $totalPriceOld;

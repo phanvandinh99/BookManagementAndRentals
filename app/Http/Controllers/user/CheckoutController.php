@@ -15,7 +15,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderMail;
+use App\Models\admin\Book;
 use App\Models\SalesOrderDetail;
+use App\Models\admin\SalesOrder as SalesOrderAdmin;
 
 class CheckoutController extends Controller
 {
@@ -144,7 +146,7 @@ class CheckoutController extends Controller
                 $address = null; // Hoặc ['Address' => ''] nếu muốn để trống
             }
 
-            
+
             // dd($address->AddressID);
 
             $saleOrders['UserID'] = $userID;
@@ -293,6 +295,21 @@ class CheckoutController extends Controller
     public function cancelOrder(Request $request)
     {
         $order = SalesOrder::where('OrderID', $request->orderID)->first();
+        $salesOrder = SalesOrderAdmin::find($request->orderID);
+
+        // cập nhật lại số lượng sách về kho
+        $salesOrderDetails = $salesOrder->salesorderdetail;
+
+        if ($salesOrderDetails != null) {
+            foreach ($salesOrderDetails as $salesOrderDetail) {
+
+                // Tìm kiếm sách tương ứng
+                $book = Book::find($salesOrderDetail->BookID);
+                $book->QuantityInStock +=  $salesOrderDetail->QuantitySold;
+                $book->save();
+            }
+        }
+
         $order->salesOrderDetails()->delete();
         $order->delete();
         $userId = Session::get('user')->UserID;
