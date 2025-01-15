@@ -38,9 +38,9 @@
                                     </td>
                                     <td class="table-image"><a href="product-details.html"><img src="{{ $item->book?->Avatar }}" alt="{{ $item->book?->BookTitle }}"></a></td>
                                     <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book?->BookTitle }}</a></td>
-                                    <td class="table-p-price"><p>{{ $item->book?->CostPrice }} đ</p></td>
+                                    <td class="table-p-price"><p>{{ formatVND($item->book?->CostPrice) }}</p></td>
                                     <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty[{{ $item->CartItemID }}]" value="{{ $item->Quantity }}" type="number"></td>
-                                    <td class="table-total"><p>{{ $item->book?->CostPrice * $item->Quantity }} đ</p></td>
+                                    <td class="table-total"><p>{{ formatVND($item->book?->CostPrice * $item->Quantity) }}</p></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -64,11 +64,11 @@
                     <h2 class="pb-20">Tổng giỏ hàng</h2>
                     <div class="table-total-amount">
                         <div class="single-total-content d-flex justify-content-between float-left w-100">
-                            <strong>Giá sản phẩm</strong>{{$bookPrice}} đ</span>
+                            <strong>Giá sản phẩm</strong>{{ formatVND($bookPrice)}} </span>
                         </div>
                         <div class="single-total-content d-flex justify-content-between float-left w-100">
                             <strong>Chi phí vận chuyển</strong>
-                            <span class="c-total-price">{{$shipPrice}} đ</span>
+                            <span class="c-total-price">{{ formatVND($shipPrice)}}</span>
                         </div>
 
                             <div class=" single-total-content justify-content-between float-left w-100" style="display: none" id="showDiscount">
@@ -78,7 +78,7 @@
 
                         <div class="single-total-content tt-total d-flex justify-content-between float-left w-100">
                             <strong>Tổng chi phí</strong>
-                            <span class="c-total-price" id="totalPrice">{{$totalPrice}} đ</span>
+                            <span class="c-total-price" id="totalPrice">{{formatVND($totalPrice)}} </span>
                         </div>
 
                         @if ($cartItems && count($cartItems) > 0)

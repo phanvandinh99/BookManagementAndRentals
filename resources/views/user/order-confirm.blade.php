@@ -32,7 +32,7 @@
                         <span>{{ $item->book->BookTitle }}</span>
                       </div>
                       <div class="col-sm-6 col-xs-12 qty float-left d-flex">
-                        <div class="col-xs-5 col-sm-5 text-sm-right text-xs-left">{{ $item->book->CostPrice }} đ</div>
+                        <div class="col-xs-5 col-sm-5 text-sm-right text-xs-left">{{ formatVND($item->book->CostPrice) }} đ</div>
                         <div class="col-xs-2 col-sm-2">{{ $item->Quantity }}</div>
                         <div class="col-xs-5 col-sm-5 text-sm-right bold">{{ $item->book->CostPrice * $item->Quantity }} đ</div>
                       </div>
@@ -44,7 +44,7 @@
                 <tbody>
                   <tr class="mb-10">
                     <td>Tổng giá sản phẩm</td>
-                    <td class="text-right">{{ $bookPrice }} đ</td>
+                    <td class="text-right">{{ formatVND($bookPrice) }} </td>
                   </tr>
                   <tr class="mb-10">
                     <td>Chi phí vận chuyển</td>
@@ -54,7 +54,7 @@
                     <td>
                       <span class="text-uppercase">Tổng chi phí</span> (Đã bao gồm thuế)
                     </td>
-                    <td class="text-right">{{ $totalPrice }} đ</td>
+                    <td class="text-right">{{ formatVND($totalPrice) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -64,7 +64,7 @@
                   <li>Mã Đơn: {{ $orderID }}</li>
                   <li>Phương thức thanh toán: COD</li>
                   <li>
-                    Đơn vị vận chuyển: Quỳnh Express<br> <em>Giao hàng tận giường</em>
+                    Đơn vị vận chuyển: Viettel POST<br> <em>Giao hàng tận nơi</em>
                   </li>
                 </ul>
               </div>

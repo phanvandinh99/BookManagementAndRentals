@@ -136,7 +136,7 @@ class AppServiceProvider extends ServiceProvider
             }
         
             $view->with('cartItems', $cartItems);
-            $view->with('totalPrice', $totalPrice + 5);
+            $view->with('totalPrice', $totalPrice + 10000);
             $view->with('totalBook', $totalBook);
         });
         
@@ -165,8 +165,8 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('cartItems', $cartItems);
             $view->with('bookPrice', $totalPrice);
-            $view->with('shipPrice', 5);
-            $view->with('totalPrice', $totalPrice + 5);
+            $view->with('shipPrice', 10000);
+            $view->with('totalPrice', $totalPrice + 10000);
         });
 
         View()->composer('user.checkout-page', function($view) {
@@ -184,8 +184,8 @@ class AppServiceProvider extends ServiceProvider
                 }
                 $view->with('cartItems', $cartItems);
                 $view->with('bookPrice', $totalPrice);
-                $view->with('shipPrice', 5);
-                $view->with('totalPrice', $totalPrice + 5);
+                $view->with('shipPrice', 10000);
+                $view->with('totalPrice', $totalPrice + 10000);
             }
         });
     }

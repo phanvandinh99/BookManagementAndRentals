@@ -29,7 +29,7 @@
                         <div>
                             <h6 class="my-0">Giá sản phẩm</h6>
                         </div>
-                        <span class="text-muted">{{ $bookPrice }}</span>
+                        <span class="text-muted">{{ formatVND($bookPrice) }}</span>
                     </div>
                     <div class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
@@ -50,7 +50,7 @@
                         $totalPrice = !empty($totalPriceDiscount) ? $totalPriceDiscount : $totalPrice;
                         @endphp
                         <strong>Tổng Tiền (VND)</strong>
-                        <strong>{{ $totalPrice }}</strong>
+                        <strong>{{ formatVND($totalPrice) }}</strong>
                     </div>
                 </div>
 

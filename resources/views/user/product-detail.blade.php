@@ -605,7 +605,7 @@
                 // Auto remove toast
                 const autoRemoveId = setTimeout(function () {
                     main.removeChild(toast);
-                }, duration + 1000);
+                }, duration);
 
                 // Remove toast when clicked
                 toast.onclick = function (e) {
@@ -622,7 +622,7 @@
                     error: "fas fa-exclamation-circle"
                 };
                 const icon = icons[type];
-                const delay = (duration / 1000).toFixed(2);
+                const delay = (duration).toFixed(2);
 
                 toast.classList.add("toast", `toast--${type}`);
                 toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;

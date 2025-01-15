@@ -60,12 +60,12 @@ class SalesOrderDetail extends Model
         {
             return 0;
         }
-        return $this->attributes['Price'] * 1000;
+        return $this->attributes['Price'];
     }
 
     public function setPriceAttribute($val)
     {
-        $this->attributes['Price'] = $val / 1000;
+        $this->attributes['Price'] = $val;
     }
 
     public function getSubTotalAttribute()
@@ -74,12 +74,12 @@ class SalesOrderDetail extends Model
         {
             return 0;
         }
-        return $this->attributes['SubTotal'] * 1000;
+        return $this->attributes['SubTotal'];
     }
 
     public function setSubTotalAttribute($val)
     {
-        $this->attributes['SubTotal'] = $val / 1000;
+        $this->attributes['SubTotal'] = $val;
     }
 
 }

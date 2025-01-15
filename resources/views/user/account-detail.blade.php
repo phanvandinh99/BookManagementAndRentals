@@ -131,7 +131,7 @@
                                 </div>
                             </div>
 
-                            <div class="required text-right">* Bắt buộc điền</div>
+                            <!-- <div class="required text-right">* Bắt buộc điền</div> -->
                             <div class="form-footer d-flex justify-content-between align-items-center">
                                 <a href="javascript:history.back()"><i class="material-icons">navigate_before</i>Quay lại</a>
 

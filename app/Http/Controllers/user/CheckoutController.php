@@ -128,14 +128,28 @@ class CheckoutController extends Controller
             $saleOrders['Discount'] = 0;
         }
 
+
         if ($totalPrice > 0) {
+            // $address = ShippingAddress::where('UserID', $userID)
+            //     ->whereRaw('LOWER(Address) = ?', [strtolower($request->query('shippingaddress'))])
+            //     ->first();
+
+
             $address = ShippingAddress::where('UserID', $userID)
-                ->whereRaw('LOWER(Address) = ?', [strtolower($request->query('shippingaddress'))])
+                ->where('IsDefault', 1) // Lấy địa chỉ mặc định
                 ->first();
+
+            // Nếu không có địa chỉ mặc định, gán giá trị rỗng hoặc null
+            if (!$address) {
+                $address = null; // Hoặc ['Address' => ''] nếu muốn để trống
+            }
+
+            
+            // dd($address->AddressID);
 
             $saleOrders['UserID'] = $userID;
             $saleOrders['OrderStatus'] = 'PENDING';
-            $saleOrders['ShippingAddressID'] = $address;
+            $saleOrders['ShippingAddressID'] = $address->AddressID;
             $saleOrders['TotalPrice'] = $totalPrice;
             $saleOrders['ShippingFee'] = 10000;
             $saleOrders['OrderDate'] = Carbon::now();
